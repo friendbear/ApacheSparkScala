@@ -21,11 +21,14 @@ object WordCount {
     val words = input.flatMap(x => x.split("\\W+"))
 
     val lowercaseWords = words.map(_.toLowerCase)
-    // Count up the occurrences of each word
-    val wordCounts = lowercaseWords.countByValue()
 
-    // Print the results.
-    wordCounts.foreach(println)
+    val wordCounts = lowercaseWords.map(x => (x, 1)).reduceByKey((x, y) => x + y)
+
+    val wordCountsSorted = wordCounts.map(x => (x._2, x._1)).sortByKey().collect()
+
+    wordCountsSorted.foreach{ v =>
+      println(s"${v._2}: ${v._1}")
+    }
 
     sc.stop()
   }
