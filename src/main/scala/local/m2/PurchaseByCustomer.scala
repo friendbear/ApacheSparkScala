@@ -25,9 +25,12 @@ object PurchaseByCustomer {
 
     val totalByCustomer = parsedLines.reduceByKey((x,y) => x + y)
 
-    val results = totalByCustomer.collect()
+    val flipped = totalByCustomer.map(x => (x._2, x._1))
+    val totalByCustomerSorted = flipped.sortByKey()
 
-    results.sorted.foreach {println _}
+    val results = totalByCustomerSorted.collect()
+
+    results.foreach {println _}
 
     sc.stop()
   }
