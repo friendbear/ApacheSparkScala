@@ -17,10 +17,10 @@ object PopularMoviesNicer {
 
     var movieNames = Map.empty[Int, String]
     val lines = Source.fromFile("../ml-100k/u.item").getLines()
-    lines.foreach{(v: _root_.scala.Predef.String) =>
+    lines.foreach{(v: String) =>
       val fields = v.split('|')
       if (fields.length > 1) {
-        movieNames = movieNames + (fields(0).toInt ->() fields(1))
+        movieNames += (fields(0).toInt -> fields(1))
       }
     }
     movieNames
@@ -28,7 +28,6 @@ object PopularMoviesNicer {
 
   /** Our main function where the action happens */
   def main(args: Array[String]) {
-
     // Set the log level to only print errors
     Logger.getLogger("org").setLevel(Level.ERROR)
 
@@ -42,19 +41,19 @@ object PopularMoviesNicer {
     val lines = sc.textFile("../ml-100k/u.data")
 
     // Map to (movieID, 1) tuples
-    val movies = lines.map((x: _root_.scala.Predef.String) => Tuple2(x.split("\t")(1).toInt, 1))
+    val movies = lines.map((x: String) => (x.split("\t")(1).toInt, 1))
 
     // Count up all the 1's for each movie
-    val movieCounts = movies.reduceByKey( (x: Int) => x + y )
+    val movieCounts = movies.reduceByKey( (x, y) => x + y )
 
     // Flip (movieID, count) to (count, movieID)
-    val flipped = movieCounts.map( (x: Nothing) => Tuple2(x._2, x._1) )
+    val flipped = movieCounts.map( x=> (x._2, x._1) )
 
     // Sort
     val sortedMovies = flipped.sortByKey()
 
     // value -> Bloadcast[Map[Int, String]]
-    val sortedMoviesWithNames = sortedMovies.map((x: Nothing) => Tuple2(nameDict.value(x._2), x._1))
+    val sortedMoviesWithNames = sortedMovies.map(x => (nameDict.value(x._2), x._1))
     // Collect and print results
     val results = sortedMoviesWithNames.collect()
 
