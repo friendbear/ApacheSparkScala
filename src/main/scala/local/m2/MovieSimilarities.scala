@@ -2,11 +2,14 @@ package local.m2
 
 import org.apache.spark._
 import org.apache.log4j._
+
 import scala.io.Source
 import java.nio.charset.CodingErrorAction
+
 import scala.io.Codec
 import scala.math.sqrt
 import org.apache.spark.rdd.RDD.rddToPairRDDFunctions
+
 
 /**
   * Map input rating to (userId, (movieId, rating))
@@ -15,7 +18,7 @@ import org.apache.spark.rdd.RDD.rddToPairRDDFunctions
   * - At this point we have (userId, ((movieId1, rating1), (movieId2, rating2)))
   * Filter out duplicate pares
   * Make the movie pairs the key
-  * - map to (movieId1, movieId2), (ratinv1, rating2))
+  * - map to (movieId1, movieId2), (rating1, rating2))
   * groupByKey() to get every rating pair found for each movie pair
   * Compute similarity between ratings for each movie in the pair
   * Sort, save, and display results.
@@ -134,8 +137,35 @@ object MovieSimilarities {
     /**
       * Save the results if desired
       * val sorted = moviePairSimilarities.sortByKey()
-      * sorteed.saveAsTextFile("movie-sims")
+      * sorted.saveAsTextFile("movie-sims")
       */
+
+    val scoreThreshold = 0.97
+    val coOccurenceThreshold = 50.0
+    val topTake = 50
+
+    val movieId = if (!args.isEmpty) args(0).toInt else 50
+
+    val filteredResults = moviePairSimilarities.filter(x => {
+      val pair = x._1
+      val sim = x._2
+      (pair._1 == movieId || pair._2 == movieId) && sim._1 > scoreThreshold && sim._2 > coOccurenceThreshold
+    })
+
+    val results = filteredResults.map(v =>(v._2, v._1)).sortByKey(false).take(topTake)
+
+    println(s"\nTop $topTake similar movies for ${nameDict(movieId)}")
+    results.foreach(v => {
+      val sim = v._1
+      val pair = v._2
+
+      var similarMovieId = pair._1
+      if (similarMovieId == movieId) {
+        similarMovieId = pair._2
+      }
+      println(s"${nameDict(similarMovieId)} \tscore: ${sim._1} \tstrength: ${sim._2}")
+
+    })
 
     sc.stop
   }
