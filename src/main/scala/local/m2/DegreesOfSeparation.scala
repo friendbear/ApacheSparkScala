@@ -23,7 +23,7 @@ object DegreesOfSeparation {
     val heroID = fields(0)
 
     var connections = ArrayBuffer[Int]()
-    for (c <- 1 to (fields.length -1)) {
+    for (c <- 1 to fields.length -1) {
       connections += fields(c)
     }
     var color = "WHITE"
@@ -33,6 +33,7 @@ object DegreesOfSeparation {
       color = "GRAY"
       distance = 0
     }
+    println(s"$heroID, $connections, $distance, $color")
     (heroID, (connections.toArray, distance, color))
   }
 
@@ -108,9 +109,9 @@ object DegreesOfSeparation {
     if (color1 == "GRAY" && color2 == "BLACK")
       color = color2
     if (color2 == "WHITE" && (color1 == "GRAY" || color1 == "BLACK"))
-      color = color2
+      color = color1
     if (color2 == "GRAY" && color1 == "BLACK")
-      color = color2
+      color = color1
 
     (edges.toArray, distance, color)
   }
@@ -126,7 +127,7 @@ object DegreesOfSeparation {
 
     var iterationRdd = createStartingRdd(sc)
 
-    for (iteration <- 1 to 10) {
+    for (iteration <- 1 to 20) {
       println(s"Running BFS Iteration# $iteration")
 
       val mapped = iterationRdd.flatMap(bfsMap)
