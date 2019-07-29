@@ -1,14 +1,22 @@
-# Apache Spark HandsOn
+# Apache Spark2 HandsOn
 
-## Environments
+Environments
+---
 * Scala 2.12
 * Apache Spark 2.4
-* Java 1.8
+* JDK 11
 * sbt 1.x
 
-## Source
+Udemy Course
+---
 [ref](https://www.udemy.com/apache-spark-with-scala-hands-on-with-big-data)
 
 
-## Data
+Data
+---
 [MovieLens](https://grouplens.org/datasets/movielens/)
+
+
+Maven Repository
+---
+<https://mvnrepository.com/artifact/org.apache.spark/>

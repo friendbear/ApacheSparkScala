@@ -1,10 +1,10 @@
-package local.m2
+package local.spark.core
 
-import org.apache.spark._
-import org.apache.spark.SparkContext._
-import org.apache.spark.rdd._
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.SparkContext
+import org.apache.spark.rdd.RDD
 import org.apache.spark.util.LongAccumulator
-import org.apache.log4j._
+
 import scala.collection.mutable.ArrayBuffer
 
 object DegreesOfSeparation {
@@ -13,7 +13,7 @@ object DegreesOfSeparation {
   val startCharacterID = 5306 // SpiderMan
   val targetCharacterID = 14 //
 
-  var hitCounter: Option[LongAccumulator] = None // accumulater a "global" Option
+  var hitCounter: Option[LongAccumulator] = None // accumulator a "global" Option
 
   type BFSData = (Array[Int], Int, String) // array hero ID connection, the distance, and color.
   type BFSNode = (Int, BFSData)

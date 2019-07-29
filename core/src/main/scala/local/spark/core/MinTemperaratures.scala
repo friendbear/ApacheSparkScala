@@ -1,9 +1,9 @@
-package local.m2
+package local.spark.core
 
-import scala.math._
-import org.apache.spark._
-import org.apache.log4j._
-import org.apache.spark.SparkContext._
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.SparkContext
+
+import scala.math.min
 
 object MinTemperaratures {
 

@@ -1,8 +1,7 @@
-package local.m2
+package local.spark.core
 
-import org.apache.spark._
-import org.apache.spark.SparkContext._
-import org.apache.log4j._
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.SparkContext
 
 /** Find the movies with the most ratings. */
 object PopularMovies {
@@ -41,5 +40,3 @@ object PopularMovies {
 
 
 }
-
-

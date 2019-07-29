@@ -1,10 +1,11 @@
-package local.m2
+package local.spark.core
 
-import org.apache.log4j._
-import org.apache.spark._
-import scala.io.Codec
-import scala.io.Source
 import java.nio.charset.CodingErrorAction
+
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.SparkContext
+
+import scala.io.{Codec, Source}
 
 /** Find the movies with the most ratings. */
 object PopularMoviesNicer {
@@ -65,5 +66,3 @@ object PopularMoviesNicer {
 
 
 }
-
-
