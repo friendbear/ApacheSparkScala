@@ -9,6 +9,8 @@ lazy val commonSettings = Seq(
   version := "0.1.0"
 )
 
+unmanagedBase := baseDirectory.value / "twitter_lib"
+
 lazy val root = (project in file(".")).
   settings(
     name := "hi-spark",
@@ -18,6 +20,9 @@ lazy val root = (project in file(".")).
       "org.apache.spark" % "spark-core_2.12" % "2.4.3",
       "org.apache.spark" % "spark-sql_2.12" % "2.4.3",
       "org.apache.spark" % "spark-hive_2.12" % "2.4.3",
+      "org.apache.spark" % "spark-streaming_2.12" % "2.4.3" % "provided",
+      "org.twitter4j" % "twitter4j-core" % "4.0.7",
+      "org.twitter4j" % "twitter4j-stream" % "4.0.7",
       "org.scalatest" %% "scalatest" % "3.0.8", //version changed as these the only versions supported by 2.12
     )
   )

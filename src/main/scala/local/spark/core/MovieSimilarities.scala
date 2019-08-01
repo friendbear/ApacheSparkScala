@@ -1,15 +1,12 @@
-package local.m2
+package local.spark.core
 
-import org.apache.spark._
-import org.apache.log4j._
-
-import scala.io.Source
 import java.nio.charset.CodingErrorAction
 
-import scala.io.Codec
-import scala.math.sqrt
-import org.apache.spark.rdd.RDD.rddToPairRDDFunctions
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.SparkContext
 
+import scala.io.{Codec, Source}
+import scala.math.sqrt
 
 /**
   * Map input rating to (userId, (movieId, rating))
@@ -144,7 +141,10 @@ object MovieSimilarities {
     val coOccurenceThreshold = 50.0
     val topTake = 50
 
-    val movieId = if (!args.isEmpty) args(0).toInt else 50
+    val movieId = {
+      if (!args.isEmpty) args(0).toInt
+      else 50
+    }
 
     val filteredResults = moviePairSimilarities.filter(x => {
       val pair = x._1

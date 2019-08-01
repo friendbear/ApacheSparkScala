@@ -1,6 +1,6 @@
-package local.m2
+package local.spark.core
 
-import org.apache.log4j._
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.SparkContext
 
 object MostPopularSuperhero {
