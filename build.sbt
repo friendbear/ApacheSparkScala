@@ -23,14 +23,20 @@ lazy val core = (project in file("core")).settings(
   )
 )
 
+val sparkVersion ="2.4.3"
 lazy val sub = (project in file("sub")).settings(
-  scalaVersion := "2.11.8",
+  scalaVersion := "2.11.11",
     name := "hi-spark",
     commonSettings,
     libraryDependencies ++= Seq(
-      "org.apache.spark" % "spark-core_2.11" % "2.0.0",
-      "org.apache.spark" % "spark-streaming_2.11" % "2.3.0" % "provided",
+      "org.apache.spark" %% "spark-core" % sparkVersion,
+      "org.apache.spark" %% "spark-streaming" % sparkVersion,
       "org.apache.bahir" % "spark-streaming-twitter_2.11" % "2.3.3",
-//      "org.scalatest" %% "scalatest" % "3.0.8", //version changed as these the only versions supported by 2.12
+      "org.apache.spark" %% "spark-streaming-kafka" % "1.6.3" excludeAll(
+        ExclusionRule(organization = "org.spark-project.spark", name = "unused"),
+        ExclusionRule(organization = "org.apache.spark", name = "spark-streaming"),
+        ExclusionRule(organization = "org.apache.hadoop")
+      ),
+      //"org.scalatest" %% "scalatest" % "3.0.8", //version changed as these the only versions supported by 2.12
     )
   )
