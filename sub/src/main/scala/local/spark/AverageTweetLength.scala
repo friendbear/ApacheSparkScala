@@ -20,10 +20,10 @@ object AverageTweetLength extends App {
 
     val statuses = tweets.map(_.getText)
     val lengths = statuses.map(_.length)
-    var totalTweets = new AtomicLong(0)
-    var totalChars = new AtomicLong(0)
+    val totalTweets = new AtomicLong(0)
+    val totalChars = new AtomicLong(0)
     lengths.foreachRDD((rdd, time) => {
-      var count = rdd.count()
+      val count = rdd.count()
       if (count > 0) {
         totalTweets.getAndAdd(count)
 
