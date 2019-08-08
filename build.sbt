@@ -26,6 +26,7 @@ lazy val core = (project in file("core")).settings(
 val sparkVersion ="2.4.3"
 lazy val sub = (project in file("sub")).settings(
   scalaVersion := "2.11.11",
+
     name := "hi-spark",
     commonSettings,
     libraryDependencies ++= Seq(
