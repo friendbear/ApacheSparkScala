@@ -1,8 +1,7 @@
-import org.apache.spark._
-import org.apache.spark.SparkContext._
-import org.apache.spark.streaming._
-import org.apache.spark.streaming.twitter._
-import org.apache.spark.streaming.StreamingContext._
+package local.spark
+
+import org.apache.spark.streaming.twitter.TwitterUtils
+import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 object PopularHashtags {
 
