@@ -1,8 +1,8 @@
-package local.sparkstreaming
+package local.spark
 
-import local.sparkstreaming.Utilities._
-import org.apache.spark.streaming.{Seconds, StreamingContext}
+import Utilities.{setupLogging, setupTwitter}
 import org.apache.spark.streaming.twitter.TwitterUtils
+import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 /** Simple application to listen to a stream of Tweets and print them out */
 object PrintTweets {

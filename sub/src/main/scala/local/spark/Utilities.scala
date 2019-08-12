@@ -1,4 +1,4 @@
-package local.sparkstreaming
+package local.spark
 
 import java.util.regex.Pattern
 

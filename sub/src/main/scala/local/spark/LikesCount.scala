@@ -1,39 +1,22 @@
-import org.apache.spark._
-import org.apache.spark.SparkContext._
-import org.apache.spark.streaming._
-import org.apache.spark.streaming.twitter._
-import org.apache.spark.streaming.StreamingContext._
+package local.spark
 
-object PopularHashtags {
+import org.apache.spark.streaming.twitter.TwitterUtils
+import org.apache.spark.streaming.{Seconds, StreamingContext}
 
-  def setupLogging() = {
-    import org.apache.log4j.{Level, Logger}
-    val rootLogger = Logger.getRootLogger()
-    rootLogger.setLevel(Level.ERROR)
-  }
-  def setupTwitter() = {
-    import scala.io.Source
-
-    for (line <- Source.fromFile("resources/twitter.txt").getLines) {
-      val fields = line.split(" ")
-      if (fields.length == 2) {
-        System.setProperty("twitter4j.oauth." + fields(0), fields(1))
-      }
-    }
-  }
+object LikesCount {
 
   /** Our main function where the action happens */
   def main(args: Array[String]) {
 
     // Configure Twitter credentials using twitter.txt
-    setupTwitter()
+    Utilities.setupTwitter()
 
     // Set up a Spark streaming context named "PopularHashtags" that runs locally using
     // all CPU cores and one-second batches of data
     val ssc = new StreamingContext("local[2]", "PopularHashtags", Seconds(1))
 
     // Get rid of log spam (should be called after the context is set up)
-    setupLogging()
+    Utilities.setupLogging()
 
     // Create a DStream from Twitter using our streaming context
     val tweets = TwitterUtils.createStream(ssc, None)
@@ -45,7 +28,7 @@ object PopularHashtags {
     val tweetwords = statuses.flatMap(tweetText => tweetText.split(" "))
 
     // Now eliminate anything that's not a hashtag
-    val hashtags = tweetwords.filter(word => word.startsWith("#"))
+    val hashtags = tweetwords.filter(word => word.startsWith("https://"))
 
     // Map each hashtag to a key/value pair of (hashtag, 1) so we can count them up by adding up the values
     val hashtagKeyValues = hashtags.map(hashtag => (hashtag, 1))
